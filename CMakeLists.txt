@@ -30,7 +30,7 @@ message(STATUS "C++ Requests CMake Options")
 message(STATUS "=======================================================")
 cpr_option(USE_SYSTEM_CURL
     "If ON, this project will look in the system paths for an installed curl library" OFF)
-cpr_option(BUILD_CPR_TESTS "Set to ON to build cpr tests." ON)
+cpr_option(BUILD_CPR_TESTS "Set to ON to build cpr tests." OFF)
 cpr_option(BUILD_CPR_TESTS_SSL "Set to ON to build cpr ssl tests" ${BUILD_CPR_TESTS})
 cpr_option(GENERATE_COVERAGE "Set to ON to generate coverage reports." OFF)
 cpr_option(CPR_CURL_NOSIGNAL "Set to ON to disable use of signals in libcurl." OFF)
@@ -91,9 +91,7 @@ if(NOT USE_SYSTEM_CURL OR NOT CURL_FOUND)
     set(FETCHCONTENT_QUIET OFF CACHE INTERNAL "" FORCE)
     FetchContent_Declare(curl
                          GIT_REPOSITORY         https://github.com/curl/curl.git
-                         GIT_TAG                b81e0b07784dc4c1e8d0a86194b9d28776d071c0 # the hash for curl-7_69_1
-                         GIT_PROGRESS           TRUE
-                         USES_TERMINAL_DOWNLOAD TRUE)   # <---- This is needed only for Ninja to show download progress
+                         GIT_TAG                curl-7_69_1)
 
     FetchContent_MakeAvailable(curl)
 
