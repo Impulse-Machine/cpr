@@ -91,21 +91,29 @@ if(NOT USE_SYSTEM_CURL OR NOT CURL_FOUND)
     set(FETCHCONTENT_QUIET OFF CACHE INTERNAL "" FORCE)
     FetchContent_Declare(curl
                          GIT_REPOSITORY         https://github.com/curl/curl.git
-                         GIT_TAG                curl-7_72_0)
+                         GIT_TAG                curl-7_72_0
+                         CMAKE_ARGS "-DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR}")
 
-    FetchContent_MakeAvailable(curl)
+    #FetchContent_MakeAvailable(curl)
 
-    add_library(curl_int INTERFACE)
-    target_link_libraries(curl_int INTERFACE libcurl)
-    target_include_directories(curl_int INTERFACE ${curl_SOURCE_DIR}/include ${curl_BINARY_DIR}/include/curl)
-    add_library(CURL::libcurl ALIAS curl_int)
+    FetchContent_GetProperties(curl)
+	if(NOT curl_POPULATED)
+		FetchContent_Populate(curl)
+
+		add_subdirectory(${curl_SOURCE_DIR} ${curl_BINARY_DIR} EXCLUDE_FROM_ALL)
+	endif()
+
+    #add_library(curl_int INTERFACE)
+    #target_link_libraries(curl_int INTERFACE libcurl)
+   # target_include_directories(curl_int INTERFACE ${curl_SOURCE_DIR}/include ${curl_BINARY_DIR}/include/curl)
+   # add_library(CURL::libcurl ALIAS curl_int)
 
     # Group under the "external" project folder in IDEs such as Visual Studio.
-    if(BUILD_CURL_EXE)
-        set_property(TARGET curl PROPERTY FOLDER "external")
-    endif()
+   # if(BUILD_CURL_EXE)
+    #    set_property(TARGET curl PROPERTY FOLDER "external")
+    #endif()
         
-    set_property(TARGET libcurl PROPERTY FOLDER "external")
+    #set_property(TARGET libcurl PROPERTY FOLDER "external")
 endif()
 
 # GTest configuration
