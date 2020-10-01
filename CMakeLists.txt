@@ -91,7 +91,7 @@ if(NOT USE_SYSTEM_CURL OR NOT CURL_FOUND)
     set(FETCHCONTENT_QUIET OFF CACHE INTERNAL "" FORCE)
     FetchContent_Declare(curl
                          GIT_REPOSITORY         https://github.com/curl/curl.git
-                         GIT_TAG                curl-7_69_1)
+                         GIT_TAG                curl-7_72_0)
 
     FetchContent_MakeAvailable(curl)
 
